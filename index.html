@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeepMeat - Trifecta Tickets</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ========== SIDEBAR NAV ========== -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="#" class="logo">NeepMeat<br><span>Trifecta</span></a>
+    <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">✕</button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="#" class="nav-item active" data-page="tickets">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5v2M15 11v2M15 17v2M5 5h14a2 2 0 010 4H5a2 2 0 010-4zM5 13h14a2 2 0 010 4H5a2 2 0 010-4z"/></svg>
+      Tickets
+    </a>
+    <a href="#" class="nav-item" data-page="users" id="navUsers">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      Users
+    </a>
+    <a href="#" class="nav-item" data-page="tags" id="navTags">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      Tags
+    </a>
+    <div class="sidebar-divider" style="margin:0.5rem 0;"></div>
+    <a href="#" class="nav-item" data-page="tos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6M9 16h6M9 8h6M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>
+      Terms of Service
+    </a>
+    <a href="#" class="nav-item" data-page="privacy">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Privacy
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-chip" id="userChip" style="cursor:pointer;" title="Click to change avatar">
+      <span class="user-avatar" id="userAvatar">?</span>
+      <div class="user-info">
+        <span id="userDisplayName">Not logged in</span>
+        <span class="user-role" id="userRoleDisplay"></span>
+      </div>
+    </div>
+    <input type="file" id="avatarFileInput" accept="image/*" style="display:none;">
+    <button class="btn btn-outline btn-sm" id="logoutBtn" style="display:none">Logout</button>
+    <button class="btn btn-outline btn-sm" id="guestSignInBtn" style="display:none">Sign In</button>
+    <div class="sidebar-divider"></div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="theme-icon">☀️</span> Toggle theme
+    </button>
+  </div>
+</aside>
+
+<!-- Sidebar overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ========== TOPBAR ========== -->
+<header class="topbar">
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <span class="topbar-title" id="topbarTitle">Tickets</span>
+</header>
+
+<!-- ========== MAIN CONTENT ========== -->
+<main class="main-content">
+
+  <!-- -- LOGIN PAGE -- -->
+  <div id="loginPage">
+
+    <!-- LOGIN CARD -->
+    <div class="auth-card fade-up" id="loginCard">
+      <p style="font-family: var(--font-heading); font-size: 0.72rem; color: var(--color-primary); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem;">NeepMeat · Trifecta</p>
+      <h2>Welcome back</h2>
+      <p class="auth-card-sub">Sign in to your account to continue.</p>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="loginUsername" placeholder="your_username" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <div class="form-error" id="loginError"></div>
+      <button class="btn btn-primary btn-full" id="loginBtn" style="margin-top: 0.5rem;">Sign In</button>
+      <p style="font-size: 0.82rem; text-align: center; margin-top: 1.5rem; color: var(--color-muted);">
+        Don't have an account? <a href="#" id="showRegister" style="color: var(--color-primary); font-weight: 600;">Create one</a>
+      </p>
+    </div>
+
+    <!-- REGISTER CARD -->
+    <div class="auth-card fade-up" id="registerCard" style="display: none;">
+      <p style="font-family: var(--font-heading); font-size: 0.72rem; color: var(--color-primary); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem;">NeepMeat · Trifecta</p>
+      <h2>Create account</h2>
+      <p class="auth-card-sub">Join the ticketing system.</p>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="regUser" placeholder="choose_a_username" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="regPass" placeholder="min. 6 characters" autocomplete="new-password">
+      </div>
+      <div class="form-group">
+        <label>Recovery Email <span style="font-size:0.7rem;color:var(--color-muted);text-transform:none;letter-spacing:0">(optional)</span></label>
+        <input type="email" id="regEmail" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="form-error" id="regError"></div>
+      <button class="btn btn-primary btn-full" id="registerBtn" style="margin-top: 0.5rem;">Create Account</button>
+      <p style="font-size: 0.82rem; text-align: center; margin-top: 1.5rem; color: var(--color-muted);">
+        Already have an account? <a href="#" id="showLogin" style="color: var(--color-primary); font-weight: 600;">Sign in</a>
+      </p>
+    </div>
+
+  </div>
+
+  <!-- -- TICKETS PAGE -- -->
+  <div class="page hidden" id="ticketsPage">
+    <div class="page-header fade-up">
+      <h1>Tickets</h1>
+    </div>
+
+    <!-- Filters bar -->
+    <div class="filters-bar fade-up delay-1">
+      <div class="filter-group">
+        <label>Status</label>
+        <select id="filterStatus">
+          <option value="open">Open</option>
+          <option value="closed">Closed</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Tags</label>
+        <!-- Replaced at runtime by populateFilterTag() with clickable pills -->
+        <select id="filterTag" style="display:none"><option value="">All tags</option></select>
+      </div>
+      <div class="filter-group">
+        <label>Author</label>
+        <select id="filterAuthor">
+          <option value="">Anyone</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Sort</label>
+        <select id="filterSort">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+        </select>
+      </div>
+      <button class="btn btn-sm btn-outline" id="applyFilters">Apply</button>
+      <button class="btn btn-sm btn-primary" id="newTicketBtn" style="display:none; margin-left:auto;">+ New Ticket</button>
+    </div>
+
+    <!-- Ticket list -->
+    <div class="ticket-list fade-up delay-2" id="ticketList">
+      <div class="loading-state">Loading tickets…</div>
+    </div>
+  </div>
+
+  <!-- -- USERS PAGE -- -->
+  <div class="page hidden" id="usersPage">
+    <div class="page-header fade-up">
+      <h1>Users</h1>
+      <button class="btn btn-sm btn-primary" id="addUserBtn" style="display:none">+ Add User</button>
+    </div>
+    <div class="users-list fade-up delay-1" id="usersList">
+      <div class="loading-state">Loading users…</div>
+    </div>
+  </div>
+
+  <!-- -- TAGS PAGE -- -->
+  <div class="page hidden" id="tagsPage">
+    <div class="page-header fade-up">
+      <h1>Tags</h1>
+      <button class="btn btn-sm btn-primary" id="addTagBtn">+ New Tag</button>
+    </div>
+    <div class="tags-grid fade-up delay-1" id="tagsList">
+      <div class="loading-state">Loading tags…</div>
+    </div>
+  </div>
+
+  <!-- -- TOS PAGE -- -->
+  <div class="page hidden" id="tosPage">
+    <div class="page-header fade-up">
+      <h1>Terms of Service</h1>
+    </div>
+    <div class="fade-up delay-1" id="tosContent" style="max-width:860px;">
+
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:10px;padding:2rem 2.5rem;margin-bottom:1.5rem;">
+        <p style="font-family:var(--font-heading);font-size:0.72rem;color:var(--color-primary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">NeepMeat · Trifecta</p>
+        <h2 style="font-size:1.4rem;margin-bottom:0.25rem;">GNU General Public License</h2>
+        <p style="color:var(--color-muted);font-size:0.9rem;margin-bottom:0;">Version 3, 29 June 2007</p>
+      </div>
+
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:10px;padding:1.75rem 2.5rem;margin-bottom:1rem;">
+        <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;">
+          Copyright &copy; 2007 Free Software Foundation, Inc.
+          &lt;<a href="https://fsf.org" target="_blank" style="color:var(--color-primary);">https://fsf.org</a>&gt;<br>
+          Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
+        </p>
+      </div>
+
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:10px;padding:1.75rem 2.5rem;margin-bottom:1rem;">
+        <h3 style="font-size:1rem;margin-bottom:0.75rem;color:var(--color-primary);">Preamble</h3>
+        <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;">
+          The GNU General Public License is a free, copyleft license for software and other kinds of works. When we speak of free software, we are referring to freedom, not price. Our General Public Licenses are designed to make sure that you have the freedom to distribute copies of free software, to receive source code or get it if you want it, to change the software or use pieces of it in new free programs, and that you know you can do these things.
+        </p>
+        <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;margin-top:0.75rem;">
+          To protect your rights, we need to prevent others from denying you these rights or asking you to surrender the rights. Therefore, you have certain responsibilities if you distribute copies of the software, or if you modify it: responsibilities to respect the freedom of others.
+        </p>
+      </div>
+
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:10px;padding:1.75rem 2.5rem;margin-bottom:1rem;">
+        <h3 style="font-size:1rem;margin-bottom:1rem;color:var(--color-primary);">Terms &amp; Conditions</h3>
+
+        <div style="margin-bottom:1.25rem;">
+          <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:0.4rem;">0. Definitions</h4>
+          <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;">"This License" refers to version 3 of the GNU General Public License. "The Program" refers to any copyrightable work licensed under this License. "You" refers to the licensee. "Modify" means to copy from or adapt all or part of the work in a fashion requiring copyright permission.</p>
+        </div>
+
+        <div style="margin-bottom:1.25rem;">
+          <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:0.4rem;">1. Source Code</h4>
+          <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;">The source code for a work means the preferred form of the work for making modifications to it. Object code means any non-source form of a work. You may copy and distribute verbatim copies of the Program's source code as you receive it, provided that you conspicuously publish on each copy an appropriate copyright notice.</p>
+        </div>
+
+        <div style="margin-bottom:1.25rem;">
+          <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:0.4rem;">2. Basic Permissions</h4>
+          <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;">All rights granted under this License are granted for the term of copyright on the Program, and are irrevocable provided the stated conditions are met. This License explicitly affirms your unlimited permission to run the unmodified Program.</p>
+        </div>
+
+        <div style="margin-bottom:1.25rem;">
+          <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:0.4rem;">3. Protecting Users' Legal Rights</h4>
+          <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;">No covered work shall be deemed part of an effective technological measure under any applicable law fulfilling obligations under article 11 of the WIPO copyright treaty. When you convey a covered work, you waive any legal power to forbid circumvention of technological measures.</p>
+        </div>
+
+        <div style="margin-bottom:1.25rem;">
+          <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:0.4rem;">4. Conveying Verbatim Copies</h4>
+          <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;">You may convey verbatim copies of the Program's source code as you receive it, in any medium, provided that you conspicuously and appropriately publish on each copy an appropriate copyright notice and disclaimer of warranty.</p>
+        </div>
+
+        <div style="margin-bottom:1.25rem;">
+          <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:0.4rem;">5. Conveying Modified Source Versions</h4>
+          <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;">You may convey a work based on the Program, or modifications to produce it from the Program, in the form of source code under the terms of section 4, provided that you also meet all of these conditions: the work must carry prominent notices stating that you modified it, and giving a relevant date.</p>
+        </div>
+
+        <div style="margin-bottom:1.25rem;">
+          <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:0.4rem;">6. No Surrender of Others' Freedom</h4>
+          <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;">If conditions are imposed on you (whether by court order, agreement or otherwise) that contradict the conditions of this License, they do not excuse you from the conditions of this License. If you cannot convey a covered work so as to satisfy simultaneously your obligations under this License and any other pertinent obligations, then as a consequence you may not convey it at all.</p>
+        </div>
+
+        <div>
+          <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:0.4rem;">15. Disclaimer of Warranty</h4>
+          <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;font-style:italic;">THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.</p>
+        </div>
+      </div>
+
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:10px;padding:1.25rem 2.5rem;text-align:center;">
+        <p style="color:var(--color-muted);font-size:0.82rem;">Full license text available at <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" style="color:var(--color-primary);">gnu.org/licenses/gpl-3.0</a></p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- -- PRIVACY PAGE -- -->
+  <div class="page hidden" id="privacyPage">
+    <div class="page-header fade-up">
+      <h1>Privacy Notice</h1>
+    </div>
+    <div class="fade-up delay-1" id="privacyContent" style="max-width:860px;">
+
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:10px;padding:2rem 2.5rem;margin-bottom:1.5rem;">
+        <p style="font-family:var(--font-heading);font-size:0.72rem;color:var(--color-primary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">NeepMeat · Trifecta</p>
+        <h2 style="font-size:1.4rem;margin-bottom:0.25rem;">Privacy Notice</h2>
+        <p style="color:var(--color-muted);font-size:0.9rem;">Last updated: 2026. This notice explains how the site you currently are on collects, uses, and protects your data.</p>
+      </div>
+
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:10px;padding:1.75rem 2.5rem;margin-bottom:1rem;">
+        <h3 style="font-size:1rem;margin-bottom:0.75rem;color:var(--color-primary);">
+          <svg style="width:1rem;height:1rem;vertical-align:middle;margin-right:0.4rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          What Data We Collect
+        </h3>
+        <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;">When you create an account on this site, we store your <strong>username</strong>, a <strong>bcrypt-hashed password</strong> (we never store your password in plain text), an optional <strong>recovery email address</strong>, your <strong>role</strong>, and an optional <strong>profile picture</strong> you choose to upload.</p>
+        <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;margin-top:0.75rem;">When you submit a ticket or reply, we store the <strong>content you write</strong>, any <strong>files you attach</strong>, the <strong>timestamp</strong>, and your username as the author.</p>
+      </div>
+
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:10px;padding:1.75rem 2.5rem;margin-bottom:1rem;">
+        <h3 style="font-size:1rem;margin-bottom:0.75rem;color:var(--color-primary);">
+          <svg style="width:1rem;height:1rem;vertical-align:middle;margin-right:0.4rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          Data From Discord
+        </h3>
+        <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;">This platform is connected to Discord forum channels. When posts or replies are made in the connected Discord server, the following data is automatically imported:</p>
+        <ul style="color:var(--color-muted);font-size:0.88rem;line-height:1.8;margin:0.75rem 0 0 1.25rem;">
+          <li><strong>Display name</strong> - your server nickname or global Discord display name at the time of posting.</li>
+          <li><strong>Profile picture URL</strong> - a link to your Discord avatar hosted on Discord's CDN (cdn.discordapp.com). We do not download or store a copy of your avatar; only the URL is kept.</li>
+          <li><strong>Message content</strong> - the text of your forum posts and replies.</li>
+          <li><strong>File attachments</strong> - any files attached to your Discord messages are downloaded and stored on this server, compressed with Zstandard (zstd) compression.</li>
+          <li><strong>Message ID</strong> - Discord's internal snowflake ID, used only to prevent duplicate imports.</li>
+        </ul>
+        <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;margin-top:0.75rem;">This data is imported by an automated bot and is not shared with any third party. No Discord account credentials or tokens belonging to users are ever stored.</p>
+      </div>
+
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:10px;padding:1.75rem 2.5rem;margin-bottom:1rem;">
+        <h3 style="font-size:1rem;margin-bottom:0.75rem;color:var(--color-primary);">
+          <svg style="width:1rem;height:1rem;vertical-align:middle;margin-right:0.4rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          How Your Data Is Kept Secure
+        </h3>
+        <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;">We take the following measures to protect your data:</p>
+        <ul style="color:var(--color-muted);font-size:0.88rem;line-height:1.8;margin:0.75rem 0 0 1.25rem;">
+          <li><strong>Passwords</strong> are hashed using bcrypt before storage. The original password is never saved anywhere.</li>
+          <li><strong>Sessions</strong> are secured with a server-side token. Administrators can invalidate all active sessions for any account at any time.</li>
+          <li><strong>Uploaded files</strong> are stored compressed (Zstandard level 9) and served with strict Content-Security-Policy headers that prevent any uploaded content from executing scripts.</li>
+          <li><strong>File type enforcement</strong> - standard users may only attach images and videos. Contributors and administrators may attach any file type.</li>
+          <li><strong>All databases</strong> (users, tickets, tags) are stored as local SQLite files on the server and are not exposed to the network.</li>
+        </ul>
+      </div>
+
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:10px;padding:1.75rem 2.5rem;margin-bottom:1rem;">
+        <h3 style="font-size:1rem;margin-bottom:0.75rem;color:var(--color-primary);">
+          <svg style="width:1rem;height:1rem;vertical-align:middle;margin-right:0.4rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+          Guest Access
+        </h3>
+        <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;">Visitors who have not signed in may browse tickets and read replies in a read-only guest mode. Guests cannot view file attachments, post replies, create tickets, or close tickets. No personal data is collected from guest sessions.</p>
+      </div>
+
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:10px;padding:1.75rem 2.5rem;margin-bottom:1rem;">
+        <h3 style="font-size:1rem;margin-bottom:0.75rem;color:var(--color-primary);">
+          <svg style="width:1rem;height:1rem;vertical-align:middle;margin-right:0.4rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+          Data Retention &amp; Deletion
+        </h3>
+        <p style="color:var(--color-muted);font-size:0.88rem;line-height:1.7;">Your data is retained for as long as your account exists or as long as the associated ticket content is relevant to the server's operations. If you would like your account or data removed, please contact a server administrator directly.</p>
+      </div>
+
+      <div style="background:var(--color-card);border:1px solid var(--color-border);border-radius:10px;padding:1.25rem 2.5rem;text-align:center;">
+        <p style="color:var(--color-muted);font-size:0.82rem;">Questions about this privacy notice? Contact a server administrator.</p>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<!-- ========== TICKET DETAIL PANEL (slide-up) ========== -->
+<div class="sheet-overlay" id="ticketDetailOverlay"></div>
+<div class="sheet" id="ticketDetailSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div>
+      <div class="sheet-ticket-meta" id="sheetMeta"></div>
+      <h2 id="sheetTitle"></h2>
+    </div>
+    <button class="sheet-close" id="sheetClose">✕</button>
+  </div>
+  <div class="sheet-body">
+    <div class="sheet-tags" id="sheetTags"></div>
+    <div class="sheet-desc" id="sheetDesc"></div>
+
+    <div class="sheet-replies" style="margin-top: 2rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+      <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Replies</h3>
+      <div id="sheetRepliesList" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;"></div>
+      <div class="reply-box">
+        <textarea id="replyContent" rows="3" placeholder="Write a reply..." style="width: 100%; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--color-border); background: var(--color-bg); color: var(--color-text); margin-bottom: 0.5rem;"></textarea>
+        <input type="file" id="replyFile" accept="*/*" style="margin-bottom: 0.75rem; font-size: 0.85rem; display: block;">
+        <div class="form-error" id="replyError"></div>
+        <button class="btn btn-sm btn-primary" id="postReplyBtn">Post Reply</button>
+      </div>
+    </div>
+    <div class="sheet-close-block" id="sheetCloseBlock"></div>
+    <div class="sheet-actions" id="sheetActions"></div>
+  </div>
+</div>
+
+<!-- ========== CLOSE TICKET PANEL (slide-up) ========== -->
+<div class="sheet-overlay" id="closeTicketOverlay"></div>
+<div class="sheet sheet-sm" id="closeTicketSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <h2>Close Ticket</h2>
+    <button class="sheet-close" id="closeSheetClose">✕</button>
+  </div>
+  <div class="sheet-body">
+    <p style="color:var(--color-muted);margin-bottom:1rem;font-size:.9rem;">Leave a closing message (optional). This will be visible to all users.</p>
+    <div class="form-group">
+      <label>Closing message</label>
+      <textarea id="closeMessage" rows="4" placeholder="e.g. Fixed in v1.2.0, won't fix, duplicate of #3…" maxlength="1000"></textarea>
+    </div>
+    <div class="form-error" id="closeError"></div>
+    <div style="display:flex;gap:.75rem;margin-top:1rem">
+      <button class="btn btn-primary btn-full" id="confirmCloseBtn">Close ticket</button>
+      <button class="btn btn-outline btn-full" id="cancelCloseBtn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== NEW TICKET SHEET ========== -->
+<div class="sheet-overlay" id="newTicketOverlay"></div>
+<div class="sheet sheet-sm" id="newTicketSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <h2>New Ticket</h2>
+    <button class="sheet-close" id="newTicketClose">✕</button>
+  </div>
+  <div class="sheet-body">
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" id="ntTitle" placeholder="Brief summary of the issue" maxlength="200">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="ntDesc" rows="5" placeholder="Describe the issue in detail…" maxlength="4000"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Tags</label>
+      <div class="tag-picker" id="ntTagPicker"></div>
+    </div>
+    <div class="form-group">
+      <label>Attachment (optional)</label>
+      <input type="file" id="ntFile" accept="*/*" style="font-size: .9rem; background: var(--color-bg); padding: .5rem; border-radius: 4px; width: 100%; border: 1px solid var(--color-border);">
+    </div>
+    <div class="form-error" id="ntError"></div>
+    <button class="btn btn-primary btn-full" id="submitTicketBtn">Submit Ticket</button>
+  </div>
+</div>
+
+<!-- ========== ADD USER SHEET ========== -->
+<div class="sheet-overlay" id="addUserOverlay"></div>
+<div class="sheet sheet-sm" id="addUserSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <h2>Add User</h2>
+    <button class="sheet-close" id="addUserClose">✕</button>
+  </div>
+  <div class="sheet-body">
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="auUsername" placeholder="username" maxlength="80">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="auPassword" placeholder="min 6 chars" maxlength="200">
+    </div>
+    <div class="form-group">
+      <label>Role</label>
+      <select id="auRole">
+        <option value="user">User</option>
+        <option value="contributor">Contributor</option>
+        <option value="administrator">Administrator</option>
+      </select>
+    </div>
+    <div class="form-error" id="auError"></div>
+    <button class="btn btn-primary btn-full" id="confirmAddUserBtn">Create User</button>
+  </div>
+</div>
+
+<!-- ========== RESET PASSWORD SHEET ========== -->
+<div class="sheet-overlay" id="resetPassOverlay"></div>
+<div class="sheet sheet-sm" id="resetPassSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <h2>Reset Password</h2>
+    <button class="sheet-close" id="resetPassClose">✕</button>
+  </div>
+  <div class="sheet-body">
+    <p id="resetUserLabel" style="font-size: 0.9rem; margin-bottom: 1rem; color: var(--color-muted);"></p>
+    <div class="form-group">
+      <label>New Password</label>
+      <input type="password" id="resetNewPass" placeholder="Enter new password">
+    </div>
+    <div class="form-error" id="resetPassError"></div>
+    <button class="btn btn-primary btn-full" id="confirmResetBtn">Update Password</button>
+  </div>
+</div>
+
+<!-- ========== ADD TAG SHEET ========== -->
+<div class="sheet-overlay" id="addTagOverlay"></div>
+<div class="sheet sheet-sm" id="addTagSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <h2>New Tag</h2>
+    <button class="sheet-close" id="addTagClose">✕</button>
+  </div>
+  <div class="sheet-body">
+    <div class="form-group">
+      <label>Tag name</label>
+      <input type="text" id="tagName" placeholder="e.g. Bug, Feature, Question…" maxlength="50">
+    </div>
+    <div class="form-group">
+      <label>Color</label>
+      <div class="color-pick-row">
+        <input type="color" id="tagColor" value="#830494">
+        <span id="tagColorHex">#830494</span>
+      </div>
+    </div>
+    <div class="form-error" id="tagError"></div>
+    <button class="btn btn-primary btn-full" id="confirmAddTagBtn">Create Tag</button>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
